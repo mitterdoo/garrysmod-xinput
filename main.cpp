@@ -30,7 +30,7 @@ using namespace std;
 	func	xinput.getTrigger(controller, index)	-- Returns data from controller trigger (0 is left)
 	func	xinput.getStick(controller, index)		-- Returns x, y from controller stick (0 is left)
 	func	xinput.getBatteryLevel(controller)		-- Returns a value between 0.0 and 1.0, or false if the battery level isn't able to be retrieved
-	func	xinput.getConnected()					-- Returns a table where each key corresponds to whether that controller number is connected.
+	func	xinput.getControllers()					-- Returns a table where each key corresponds to whether that controller number is connected.
 	
 NYI	func	xinput.getCapabilities(controller, type=1) -- Returns capabilities
 
@@ -408,7 +408,7 @@ LUA_FUNCTION( GetState )
 	return 1;
 }
 
-LUA_FUNCTION( GetConnected )
+LUA_FUNCTION( GetControllers )
 {
 
 	stateQueueLock.lock();
@@ -505,7 +505,7 @@ GMOD_MODULE_OPEN()
 		LUA->PushCFunction(GetTrigger);			LUA->SetField(-2, "getTrigger");
 		LUA->PushCFunction(GetStick);			LUA->SetField(-2, "getStick");
 		LUA->PushCFunction(GetBatteryLevel);	LUA->SetField(-2, "getBatteryLevel");
-		LUA->PushCFunction(GetConnected);		LUA->SetField(-2, "getConnected");
+		LUA->PushCFunction(GetControllers);		LUA->SetField(-2, "getControllers");
 		LUA->PushCFunction(SetRumble);			LUA->SetField(-2, "setRumble");
     LUA->SetField(-2, "xinput");
 

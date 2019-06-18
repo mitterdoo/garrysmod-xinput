@@ -14,7 +14,7 @@
   * [xinput.getTrigger(`id`, `trigger`) → `number`](#xinputgettriggerid-trigger--number)
   * [xinput.getStick(`id`, `stick`) → `number`, `number`](#xinputgetstickid-stick--number-number)
   * [xinput.getBatteryLevel(`id`) → `number`/`false`, `string`](#xinputgetbatterylevelid--numberfalse-string)
-  * [xinput.getConnected() → `table`](#xinputgetconnected--table)
+  * [xinput.getControllers() → `table`](#xinputgetcontrollers--table)
   * [xinput.setRumble(`id`, `softPercent`, `hardPercent`)](#xinputsetrumbleid-softpercent-hardpercent)
 * [Enums](#enums)
   * [XINPUT\_GAMEPAD\_*](#xinput_gamepad_)
@@ -76,7 +76,7 @@ Gets the current coordinates of `stick` (0 is left) on controller `id`. Each coo
 ### xinput.getBatteryLevel(`id`) → `number`/`false`, `string`
 Attempts to get the current battery level of controller `id`. If successful, returns the level between 0.0-1.0 inclusive. Otherwise, returns `false`, and a message explaining why it couldn't get the level.
 
-### xinput.getConnected() → `table`
+### xinput.getControllers() → `table`
 Returns a table where each _key_ is the `id` of a controller that is currently connected (the values are always `true`).
 
 ### xinput.setRumble(`id`, `softPercent`, `hardPercent`)
