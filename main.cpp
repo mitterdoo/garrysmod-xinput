@@ -107,8 +107,8 @@ void enqueueEvent(clock_t when, DWORD controller, int eventType, DWORD data, cha
 	eventQueue.push(event);
 }
 
-// Polls all controllers (unless onlyUpdate >= 0) at the specified time, updates their stored states, and queues any events (if needed)
-void pollControllers(clock_t now, bool updateQueue, long onlyUpdate=-1)
+// Polls all controllers at the specified time, updates their stored states, and queues any events
+void pollControllers(clock_t now)
 {
 	XINPUT_STATE state; // current state of the controller
 	controllerState* lastState; // previously-recorded state of the controller
@@ -117,7 +117,6 @@ void pollControllers(clock_t now, bool updateQueue, long onlyUpdate=-1)
 	
 	for (DWORD user = 0; user < XUSER_MAX_COUNT; user++)
 	{
-		if (onlyUpdate >= 0 && user != onlyUpdate) continue;	// If we were asked to only update a certain controller, only update that one.
 		lastState = &controllers[user];							// Get the last state to compare with
 		if (!lastState->connected && now < nextUpdateTimes[user]) continue; // Don't poll for a bit if the controller is off
 
@@ -125,14 +124,6 @@ void pollControllers(clock_t now, bool updateQueue, long onlyUpdate=-1)
 		dwResult = XInputGetState(user, &state);	// Get the state
 		
 		char connected = (dwResult == ERROR_SUCCESS); // could this be bad?
-
-		if (!updateQueue) // If we aren't adding to the queue, then don't bother finding out what to add.
-		{
-			lastState->connected = connected;
-			lastState->Gamepad = state.Gamepad;
-			continue;
-		}
-
 
 		// Check if we turned on (save turning off for last)
 		if (connected && !lastState->connected)
@@ -334,8 +325,6 @@ LUA_FUNCTION( GetButton )
 	WORD button = LUA->CheckNumber(2);
 	controllerSanityCheck(LUA, controller);
 
-	pollControllers(clock(), false, (long)controller);
-
 	WORD buttonState = controllers[controller].Gamepad.wButtons;
 	LUA->PushBool( (buttonState & button) > 0 );
 	return 1;
@@ -347,8 +336,6 @@ LUA_FUNCTION( GetTrigger )
 	DWORD controller = LUA->CheckNumber(1);
 	int isRight = LUA->CheckNumber(2);
 	controllerSanityCheck(LUA, controller);
-
-	pollControllers(clock(), false, (long)controller);
 
 	controllerState state = controllers[controller];
 	if (!isRight)
@@ -364,8 +351,6 @@ LUA_FUNCTION( GetStick )
 	DWORD controller = LUA->CheckNumber(1);
 	int isRight = LUA->CheckNumber(2);
 	controllerSanityCheck(LUA, controller);
-
-	pollControllers(clock(), false, (long)controller);
 
 	controllerState state = controllers[controller];
 	if (!isRight)
@@ -385,10 +370,6 @@ LUA_FUNCTION( GetState )
 {
 	DWORD controller = LUA->CheckNumber(1);
 	controllerSanityCheck(LUA, controller);
-
-	stateQueueLock.lock();
-	pollControllers(clock(), false, (long)controller);
-	stateQueueLock.unlock();
 
 	controllerState state = controllers[controller];
 	if (!state.connected)
@@ -410,11 +391,6 @@ LUA_FUNCTION( GetState )
 
 LUA_FUNCTION( GetControllers )
 {
-
-	stateQueueLock.lock();
-	pollControllers(clock(), false);
-	stateQueueLock.unlock();
-
 	LUA->CreateTable();
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
 	{
@@ -468,7 +444,7 @@ void PollingFunction()
 			break;
 		}
 		
-		pollControllers(clock(), true);
+		pollControllers(clock());
 
 		stateQueueLock.unlock();
 		Sleep(1);
