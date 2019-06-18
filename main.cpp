@@ -461,6 +461,21 @@ GMOD_MODULE_OPEN()
 
 	// Make the library table
     LUA->PushSpecial( SPECIAL_GLOB );
+	LUA->PushNumber(XINPUT_GAMEPAD_DPAD_UP);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_UP");
+	LUA->PushNumber(XINPUT_GAMEPAD_DPAD_DOWN);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_DOWN");
+	LUA->PushNumber(XINPUT_GAMEPAD_DPAD_LEFT);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_LEFT");
+	LUA->PushNumber(XINPUT_GAMEPAD_DPAD_RIGHT);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_RIGHT");
+	LUA->PushNumber(XINPUT_GAMEPAD_START);				LUA->SetField(-2, "XINPUT_GAMEPAD_START");
+	LUA->PushNumber(XINPUT_GAMEPAD_BACK);				LUA->SetField(-2, "XINPUT_GAMEPAD_BACK");
+	LUA->PushNumber(XINPUT_GAMEPAD_LEFT_THUMB);			LUA->SetField(-2, "XINPUT_GAMEPAD_LEFT_THUMB");
+	LUA->PushNumber(XINPUT_GAMEPAD_RIGHT_THUMB);		LUA->SetField(-2, "XINPUT_GAMEPAD_RIGHT_THUMB");
+	LUA->PushNumber(XINPUT_GAMEPAD_LEFT_SHOULDER);		LUA->SetField(-2, "XINPUT_GAMEPAD_LEFT_SHOULDER");
+	LUA->PushNumber(XINPUT_GAMEPAD_RIGHT_SHOULDER);		LUA->SetField(-2, "XINPUT_GAMEPAD_RIGHT_SHOULDER");
+	LUA->PushNumber(XINPUT_GAMEPAD_A);					LUA->SetField(-2, "XINPUT_GAMEPAD_A");
+	LUA->PushNumber(XINPUT_GAMEPAD_B);					LUA->SetField(-2, "XINPUT_GAMEPAD_B");
+	LUA->PushNumber(XINPUT_GAMEPAD_X);					LUA->SetField(-2, "XINPUT_GAMEPAD_X");
+	LUA->PushNumber(XINPUT_GAMEPAD_Y);					LUA->SetField(-2, "XINPUT_GAMEPAD_Y");
+	
 	LUA->CreateTable();
 		LUA->PushCFunction(UpdateState);		LUA->SetField(-2, "updateState");		// Store a reference to this just in case some idiot removes the hook
 		LUA->PushCFunction(GetState);			LUA->SetField(-2, "getState");
@@ -469,20 +484,6 @@ GMOD_MODULE_OPEN()
 		LUA->PushCFunction(GetStick);			LUA->SetField(-2, "getStick");
 		LUA->PushCFunction(GetBatteryLevel);	LUA->SetField(-2, "getBatteryLevel");
 		LUA->PushCFunction(SetRumble);			LUA->SetField(-2, "setRumble");
-		LUA->PushNumber(XINPUT_GAMEPAD_DPAD_UP);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_UP");
-		LUA->PushNumber(XINPUT_GAMEPAD_DPAD_DOWN);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_DOWN");
-		LUA->PushNumber(XINPUT_GAMEPAD_DPAD_LEFT);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_LEFT");
-		LUA->PushNumber(XINPUT_GAMEPAD_DPAD_RIGHT);			LUA->SetField(-2, "XINPUT_GAMEPAD_DPAD_RIGHT");
-		LUA->PushNumber(XINPUT_GAMEPAD_START);				LUA->SetField(-2, "XINPUT_GAMEPAD_START");
-		LUA->PushNumber(XINPUT_GAMEPAD_BACK);				LUA->SetField(-2, "XINPUT_GAMEPAD_BACK");
-		LUA->PushNumber(XINPUT_GAMEPAD_LEFT_THUMB);			LUA->SetField(-2, "XINPUT_GAMEPAD_LEFT_THUMB");
-		LUA->PushNumber(XINPUT_GAMEPAD_RIGHT_THUMB);		LUA->SetField(-2, "XINPUT_GAMEPAD_RIGHT_THUMB");
-		LUA->PushNumber(XINPUT_GAMEPAD_LEFT_SHOULDER);		LUA->SetField(-2, "XINPUT_GAMEPAD_LEFT_SHOULDER");
-		LUA->PushNumber(XINPUT_GAMEPAD_RIGHT_SHOULDER);		LUA->SetField(-2, "XINPUT_GAMEPAD_RIGHT_SHOULDER");
-		LUA->PushNumber(XINPUT_GAMEPAD_A);					LUA->SetField(-2, "XINPUT_GAMEPAD_A");
-		LUA->PushNumber(XINPUT_GAMEPAD_B);					LUA->SetField(-2, "XINPUT_GAMEPAD_B");
-		LUA->PushNumber(XINPUT_GAMEPAD_X);					LUA->SetField(-2, "XINPUT_GAMEPAD_X");
-		LUA->PushNumber(XINPUT_GAMEPAD_Y);					LUA->SetField(-2, "XINPUT_GAMEPAD_Y");
     LUA->SetField(-2, "xinput");
 
 
