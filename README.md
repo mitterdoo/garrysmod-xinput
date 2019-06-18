@@ -5,6 +5,9 @@ This hooks into Garry's Mod's `xinput1_3.dll` that is provided with any build.
 XInput is far better than DirectInput (the alternative of getting controller input in GLua), because DirectInput maps both triggers to one axis, making them indistinguishable if both are in use. XInput does not have this issue. Additionally, XInput has rumble support.
 Finally, this module has a threaded poll loop. That means that if your game freezes momentarily, your inputs will still be registered! They will also record the instant that they occurred.
 
+## Installation
+If you are running Garry's Mod in 32-bit (this is **not** asking about your machine architecture; Garry's Mod is a 32-bit game and, at the time of writing, become 64-bit if and only if you are on the x86-64 branch), place `gmcl_xinput_win32.dll` in `garrysmod/garrysmod/lua/bin`. If the `bin` folder does not exist, create one. If you're running 64-bit, place `gmcl_xinput_win64.dll` in the same location.
+
 This module adds the following hooks and functions:
 ## Hooks
 _For all events, `when` is the `RealTime()` at which it occurred._
