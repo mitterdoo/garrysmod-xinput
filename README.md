@@ -1,4 +1,10 @@
 # garrysmod-xinput
+(quick links for developers)
+* [Hooks](#hooks)
+* [Functions](#functions)
+* [Enums](#enums)
+* [Structs](#structs)
+
 A Lua binary module for Garry's Mod that exposes XInput (1.3) functions
 This hooks into Garry's Mod's `xinput1_3.dll` that is provided with any build.
 
@@ -6,8 +12,15 @@ XInput is far better than DirectInput (the alternative of getting controller inp
 Finally, this module has a threaded poll loop. That means that if your game freezes momentarily, your inputs will still be registered! They will also record the instant that they occurred.
 
 ## Installation
-If you are running Garry's Mod in 32-bit (this is **not** asking about your machine architecture; Garry's Mod is a 32-bit game and, at the time of writing, become 64-bit if and only if you are on the x86-64 branch), place `gmcl_xinput_win32.dll` in `garrysmod/garrysmod/lua/bin`. If the `bin` folder does not exist, create one. If you're running 64-bit, place `gmcl_xinput_win64.dll` in the same location.
+If you are running Garry's Mod in 32-bit (this is **not** asking about your machine architecture; Garry's Mod is a 32-bit game and, at the time of writing, become 64-bit if and only if you are on the x86-64 branch), place `gmcl_xinput_win32.dll` in `garrysmod/garrysmod/lua/bin`. If the `bin` folder does not exist, create one. If you're running 64-bit, place `gmcl_xinput_win64.dll` in the _same location_.
 
+## Getting it to work
+This module ***will not work properly*** if Steam (or some other program) is using your controller inputs. If you are running Steam regularly, right-click Garry's Mod in your Steam library, click "Properties". In the "General" tab, change the "Steam Input Per-Game Setting" to "Forced Off" as so: ![Instructions were just explained; should be straightforward](http://mitterdoo.net/u/2019-06/11d45108-618a-4328-a09d-4aadd15ffc2f.png)
+
+If you are in Big Picture mode, before launching Garry's Mod, turn off Steam input for the game, as so: ![Select "Controller Options", then select "Forced Off" for "Steam Input Per-Game Setting"](http://mitterdoo.net/u/2019-06/3dea28d5-e657-4ff6-a347-55f41f6856d1.png)
+
+
+# Functionality
 This module adds the following hooks and functions:
 ## Hooks
 _For all events, `when` is the `RealTime()` at which it occurred._
