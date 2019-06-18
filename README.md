@@ -1,9 +1,25 @@
 # garrysmod-xinput
-(quick links for developers)
+* [Installation](#installation)
+* [Getting it to work](#getting-it-to-work)
 * [Hooks](#hooks)
+  * [xinputConnected](#xinputconnectedid-when)
+  * [xinputDisconnected](#xinputdisconnectedid-when)
+  * [xinputPressed](#xinputpressedid-button-when)
+  * [xinputReleased](#xinputreleasedid-button-when)
+  * [xinputTrigger](#xinputtriggerid-trigger-value-when)
+  * [xinputStick](#xinputstickid-stick-x-y-when)
 * [Functions](#functions)
+  * [xinput.getState(`id`) → `XINPUT_GAMEPAD`/`false`](#xinputgetstateid--xinput_gamepadfalse)
+  * [xinput.getButton(`id`, `button`) → `bool`](#xinputgetbuttonid-button--bool)
+  * [xinput.getTrigger(`id`, `trigger`) → `number`](#xinputgettriggerid-trigger--number)
+  * [xinput.getStick(`id`, `stick`) → `number`, `number`](#xinputgetstickid-stick--number-number)
+  * [xinput.getBatteryLevel(`id`) → `number`/`false`, `string`](#xinputgetbatterylevelid--numberfalse-string)
+  * [xinput.getConnected() → `table`](#xinputgetconnected--table)
+  * [xinput.setRumble(`id`, `softPercent`, `hardPercent`)](#xinputsetrumbleid-softpercent-hardpercent)
 * [Enums](#enums)
+  * [XINPUT\_GAMEPAD\_*](#xinput_gamepad_)
 * [Structs](#structs)
+  * [XINPUT_GAMEPAD](#xinput_gamepad)
 
 A Lua binary module for Garry's Mod that exposes XInput (1.3) functions
 This hooks into Garry's Mod's `xinput1_3.dll` that is provided with any build.
@@ -59,6 +75,9 @@ Gets the current coordinates of `stick` (0 is left) on controller `id`. Each coo
 
 ### xinput.getBatteryLevel(`id`) → `number`/`false`, `string`
 Attempts to get the current battery level of controller `id`. If successful, returns the level between 0.0-1.0 inclusive. Otherwise, returns `false`, and a message explaining why it couldn't get the level.
+
+### xinput.getConnected() → `table`
+Returns a table where each _key_ is the `id` of a controller that is currently connected (the values are always `true`).
 
 ### xinput.setRumble(`id`, `softPercent`, `hardPercent`)
 Sets the rumble on controller `id`. Each percent value is between 0.0-1.0 inclusive. XInput controllers have two rumble motors: a soft motor, and a hard motor. This allows for many different combinations of how the rumble "feels".
