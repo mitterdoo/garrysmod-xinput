@@ -206,16 +206,16 @@ LUA_FUNCTION( UpdateState )
 	while (!eventQueue.empty())
 	{
 		inputEvent event = eventQueue.front();
+		eventQueue.pop();
 		int type = event.eventType;
 		double when = ((double)event.when) / CLOCKS_PER_SEC + realTimeOffset;
 		const char* hookName = hookNames[type];
 
 		int argc = 2;
-		LUA->PushSpecial(SPECIAL_GLOB);
-		LUA->GetField(-1, "ErrorNoHalt");
 
-		LUA->GetField(-2, "hook");
-		LUA->GetField(-1, "Run");
+		LUA->PushSpecial(SPECIAL_GLOB);
+		LUA->GetField(-1, "hook");
+		LUA->GetField(-1, "Run"); LUA->Remove(-2); LUA->Remove(-2);
 		// arg 1: hook name
 			LUA->PushString(hookName);
 		// vararg
@@ -250,9 +250,25 @@ LUA_FUNCTION( UpdateState )
 			LUA->PushNumber(when);
 			argc += 1;
 
-		LUA->PCall(argc, 0, -argc - 2);
+		if (LUA->PCall(argc, 0, 0))
+		{
+			stateQueueLock.unlock();
 
-		eventQueue.pop();
+			// I WOULD use lua_error and have it just use the current error on the stack, but guess who doesn't have access to the underlying Lua state? :)
+			const char* errMsg = LUA->GetString();
+			if (errMsg != NULL)
+			{
+				LUA->ThrowError(errMsg);
+			}
+			else
+			{
+				// It is a REALLY dumb idea for someone to error with a dumb type
+				char otherErrMsg[128];
+				sprintf(otherErrMsg, "xinput hook \"%s\" failed with an error that could not be converted to a string", hookName);
+				LUA->ThrowError(otherErrMsg);
+			}
+		}
+
 	}
 	stateQueueLock.unlock();
 

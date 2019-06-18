@@ -57,7 +57,7 @@ Called when `button` _(see [XINPUT_GAMEPAD_*](#xinput_gamepad_) enums)_ on contr
 Called when `trigger` (0 is left) on controller number `id` has been moved to new position `value`. `value` is between 0-255 inclusive.
 
 ### xinputStick(`id`, `stick`, `x`, `y`, `when`)
-Called when `stick` (0 is left) on controller number `id` has been moved to new coordinates (`x`, `y`). Each coordinate, `x`, and `y`, are between 0-65535 inclusive.
+Called when `stick` (0 is left) on controller number `id` has been moved to new coordinates (`x`, `y`). Each coordinate, `x`, and `y`, are between -32768 - 32767 inclusive.
 
 ## Functions
 
@@ -71,7 +71,7 @@ Gets whether the `button` _(see [XINPUT_GAMEPAD_*](#xinput_gamepad_) enums)_ on 
 Gets the current position of `trigger` (0 is left) on controller `id`. Returns a value between 0-255 inclusive.
 
 ### xinput.getStick(`id`, `stick`) → `number`, `number`
-Gets the current coordinates of `stick` (0 is left) on controller `id`. Each coordinate is between 0-65535 inclusive.
+Gets the current coordinates of `stick` (0 is left) on controller `id`. Each coordinate is between -32768 - 32767 inclusive.
 
 ### xinput.getBatteryLevel(`id`) → `number`/`false`, `string`
 Attempts to get the current battery level of controller `id`. If successful, returns the level between 0.0-1.0 inclusive. Otherwise, returns `false`, and a message explaining why it couldn't get the level.
@@ -110,7 +110,7 @@ Type | Name | Description
 `number` | `wButtons` | A bitmask containing all buttons pushed. See [XINPUT_GAMEPAD_*](#xinput_gamepad_) to see which bits correspond to which button.
 `number` | `bLeftTrigger` | The position of the left trigger, between 0-255 inclusive.
 `number` | `bRightTrigger` | The position of the right trigger, between 0-255 inclusive.
-`number` | `sThumbLX` | The X-coordinate of the left thumb stick, between 0-65535 inclusive.
-`number` | `sThumbLY` | The Y-coordinate of the left thumb stick, between 0-65535 inclusive.
-`number` | `sThumbRX` | The X-coordinate of the right thumb stick, between 0-65535 inclusive.
-`number` | `sThumbRY` | The Y-coordinate of the right thumb stick, between 0-65535 inclusive.
+`number` | `sThumbLX` | The X-coordinate of the left thumb stick, between -32768 - 32767 inclusive.
+`number` | `sThumbLY` | The Y-coordinate of the left thumb stick, between -32768 - 32767 inclusive.
+`number` | `sThumbRX` | The X-coordinate of the right thumb stick, between -32768 - 32767 inclusive.
+`number` | `sThumbRY` | The Y-coordinate of the right thumb stick, between -32768 - 32767 inclusive.
