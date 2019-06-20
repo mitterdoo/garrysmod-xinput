@@ -441,8 +441,8 @@ LUA_FUNCTION( SetRumble )
 
 
 	XINPUT_VIBRATION vib;
-	vib.wLeftMotorSpeed = softRumble;
-	vib.wRightMotorSpeed = hardRumble;
+	vib.wLeftMotorSpeed = hardRumble;
+	vib.wRightMotorSpeed = softRumble;
 	XInputSetState(controller, &vib);
 
 	return 0;
