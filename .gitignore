@@ -1,3 +1,4 @@
 main.exp
 main.lib
 main.obj
+*.dll
