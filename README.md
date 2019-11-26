@@ -53,10 +53,10 @@ Called when `button` _(see [XINPUT_GAMEPAD_*](#xinput_gamepad_) enums)_ on contr
 ### xinputReleased(`id`, `button`, `when`)
 Called when `button` _(see [XINPUT_GAMEPAD_*](#xinput_gamepad_) enums)_ on controller number `id` has been released.
 
-### xinputTrigger(`id`, `trigger`, `value`, `when`)
+### xinputTrigger(`id`, `value`, `trigger`, `when`)
 Called when `trigger` (0 is left) on controller number `id` has been moved to new position `value`. `value` is between 0-255 inclusive.
 
-### xinputStick(`id`, `stick`, `x`, `y`, `when`)
+### xinputStick(`id`, `x`, `y`, `stick`, `when`)
 Called when `stick` (0 is left) on controller number `id` has been moved to new coordinates (`x`, `y`). Each coordinate, `x`, and `y`, are between -32768 - 32767 inclusive.
 
 ## Functions
