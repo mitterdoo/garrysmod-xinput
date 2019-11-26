@@ -84,7 +84,13 @@ struct inputEvent
 	clock_t when;		// clock() time for when this happened
 	DWORD controller;	// Which controller this is (0-3)
 	int eventType;		// see EVENT_ enums
-	DWORD data;			// Either: button flag, trigger analog data, or combined ((x << 16) || y) stick position
+	union {				// Either: button flag, trigger analog data, or combined ((x << 16) || y) stick position
+		DWORD data;
+		struct {
+			SHORT dataX;
+			SHORT dataY;
+		};
+	};
 	char isRight;		// If this is a stick/trigger event, this denotes whether this is left or right
 };
 struct controllerState
@@ -104,6 +110,14 @@ clock_t nextUpdateTimes[XUSER_MAX_COUNT];		// If a controller is off, it will be
 void enqueueEvent(clock_t when, DWORD controller, int eventType, DWORD data, char isRight)
 {
 	inputEvent event = {when, controller, eventType, data, isRight};
+	eventQueue.push(event);
+}
+
+void enqueueEvent(clock_t when, DWORD controller, int eventType, SHORT dataX, SHORT dataY, char isRight)
+{
+	inputEvent event = {when, controller, eventType, 0, isRight};
+	event.dataX = dataX;
+	event.dataY = dataY;
 	eventQueue.push(event);
 }
 
@@ -160,11 +174,11 @@ void pollControllers(clock_t now)
 		// Check if sticks changed
 		if (state.Gamepad.sThumbLX != lastState->Gamepad.sThumbLX || state.Gamepad.sThumbLY != lastState->Gamepad.sThumbLY)
 		{
-			enqueueEvent(now, user, EVENT_STICK, (state.Gamepad.sThumbLX << (sizeof(SHORT) * 8)) | state.Gamepad.sThumbLY, 0);
+			enqueueEvent(now, user, EVENT_STICK, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY, 0);
 		}
 		if (state.Gamepad.sThumbRX != lastState->Gamepad.sThumbRX || state.Gamepad.sThumbRY != lastState->Gamepad.sThumbRY)
 		{
-			enqueueEvent(now, user, EVENT_STICK, (state.Gamepad.sThumbRX << (sizeof(SHORT) * 8)) | state.Gamepad.sThumbRY, 1);
+			enqueueEvent(now, user, EVENT_STICK, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY, 1);
 		}
 
 		// Finally, check if we lost connection
@@ -239,8 +253,8 @@ LUA_FUNCTION( UpdateState )
 					break;
 				
 				case EVENT_STICK:
-					LUA->PushNumber(event.data >> (sizeof(SHORT) * 8));
-					LUA->PushNumber((SHORT)event.data);
+					LUA->PushNumber(event.dataX);
+					LUA->PushNumber(event.dataY);
 					LUA->PushNumber(event.isRight ? 1 : 0);
 					argc += 3;
 					break;
